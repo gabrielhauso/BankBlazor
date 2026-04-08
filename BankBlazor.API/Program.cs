@@ -1,4 +1,7 @@
 
+using BankBlazor.API.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace BankBlazor.API
 {
     public class Program
@@ -12,6 +15,9 @@ namespace BankBlazor.API
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<BankBlazorContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
