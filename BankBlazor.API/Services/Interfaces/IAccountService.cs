@@ -10,6 +10,6 @@ namespace BankBlazor.API.Services.Interfaces
         Task<bool> Deposit(int accountId, decimal amount);
         Task<bool> Withdraw(int accountId, decimal amount);
         Task<bool> Trasnfer(int fromAccountId, int toAccountId, decimal amount);
-        Task<Transaction> TransactionByAccountId(int id);
+        Task<List<Transaction>> TransactionByAccountId(int id);
     }
 }
