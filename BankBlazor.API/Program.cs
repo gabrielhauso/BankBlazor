@@ -1,4 +1,6 @@
 using BankBlazor.API.Data;
+using BankBlazor.API.Services;
+using BankBlazor.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankBlazor.API
@@ -18,6 +20,10 @@ namespace BankBlazor.API
 
             builder.Services.AddDbContext<BankBlazorContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
+
 
             var app = builder.Build();
 
