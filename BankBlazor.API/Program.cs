@@ -25,7 +25,19 @@ namespace BankBlazor.API
             builder.Services.AddScoped<IAccountService, AccountService>();
 
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowBlazorClient", policy =>
+                {
+                    policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
+
+            app.UseCors("AllowBlazorClient");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
