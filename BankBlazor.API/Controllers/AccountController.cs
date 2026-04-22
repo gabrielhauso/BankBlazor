@@ -36,5 +36,79 @@ namespace BankBlazor.API.Controllers
 
             return Ok(accountDTO);
         }
+
+        [HttpPost("Deposit")]
+
+        public async Task<ActionResult> PostDeposit(int accountId, decimal amount)
+        {
+            var result = await _accountService.Deposit(accountId, amount);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
+            
+            return Ok("Deposit successful");
+
+        }
+
+        [HttpPost("Withdraw")]
+
+        public async Task<ActionResult> PostWithdraw(int accountId, decimal amount)
+        {
+            var result = await _accountService.Withdraw(accountId, amount);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
+
+            return Ok("Withdraw successful");
+
+        }
+
+        [HttpPost("Transfer")]
+
+        public async Task<ActionResult> PostTransfer(int fromAccountId, int toAccountId, decimal amount)
+        {
+            var result = await _accountService.Transfer(fromAccountId, toAccountId, amount);
+
+            if (result == false)
+            {
+                return BadRequest();
+            }
+
+
+            return Ok("Transfer successful");
+
+        }
+
+        [HttpGet("{id}/transactions")]
+
+        public async Task<ActionResult<List<TransactionDTO>>> GetTransactions(int id)
+        {
+            var transactions = await _accountService.TransactionByAccountId(id);
+
+            if (transactions == null)
+            {
+                return NotFound();
+            }
+
+            var transactionsDTO = transactions.Select(transactions => new TransactionDTO
+            {
+                TransactionId = transactions.TransactionId,
+                AccountId = transactions.AccountId,
+                Date = transactions.Date,
+                Amount = transactions.Amount,
+                Balance = transactions.Balance,
+                Operation = transactions.Operation,
+                Type = transactions.Type
+
+            });
+
+            return Ok(transactionsDTO);
+        }
     }
 }
