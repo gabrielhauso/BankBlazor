@@ -73,6 +73,7 @@ namespace BankBlazor.API.Controllers
             };
 
             return Ok(customerDTO);
+
         }
 
     }
