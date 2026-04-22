@@ -45,5 +45,35 @@ namespace BankBlazor.API.Controllers
             return Ok(customerDTO);
         }
 
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<CustomerDTO>> GetCustomerById(int id)
+        {
+            var customer = await _customerService.GetCustomer(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            var customerDTO = new CustomerDTO
+            {
+                CustomerId = customer.CustomerId,
+                Gender = customer.Gender,
+                Givenname = customer.Givenname,
+                Surname = customer.Surname,
+                Streetaddress = customer.Streetaddress,
+                City = customer.City,
+                Zipcode = customer.Zipcode,
+                Country = customer.Country,
+                Birthday = customer.Birthday,
+                Telephonenumber = customer.Telephonenumber,
+                Emailaddress = customer.Emailaddress
+
+            };
+
+            return Ok(customerDTO);
+        }
+
     }
 }
