@@ -83,7 +83,7 @@ namespace BankBlazor.API.Services
 
         }
 
-        public async Task<bool> Trasnfer(int fromAccountId, int toAccountId, decimal amount)
+        public async Task<bool> Transfer(int fromAccountId, int toAccountId, decimal amount)
         {
             var fromAccount = await _dbcontext.Accounts.FindAsync(fromAccountId);
 
