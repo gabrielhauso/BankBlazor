@@ -68,7 +68,15 @@ namespace BankBlazor.API.Controllers
                 Country = customer.Country,
                 Birthday = customer.Birthday,
                 Telephonenumber = customer.Telephonenumber,
-                Emailaddress = customer.Emailaddress
+                Emailaddress = customer.Emailaddress,
+
+                Accounts = customer.Dispositions.Select(d => new AccountDTO
+                {
+                    AccountId = d.Account.AccountId,
+                    Frequency = d.Account.Frequency,
+                    Created = d.Account.Created,
+                    Balance = d.Account.Balance
+                }).ToList()
 
             };
 

@@ -1,6 +1,6 @@
 ﻿@page "/dashboard"
 @inject HttpClient Http
-@using BankBlazorClassLibrary.DTOs
+@using BankBlazorClassLibrary.ViewModels
 
 <div class="search-section">
     <label for="customerId">Customer ID:</label>
@@ -8,32 +8,60 @@
     <button @onclick="GetCustomer">Search</button>
 </div>
 
-@if (customer != null)
+@if (customerViewModel != null)
 {
     <div class="customer-section">
         <h3>Customer Dashboard</h3>
-        <p><strong>Name:</strong> @customer.Givenname @customer.Surname</p>
-        <p><strong>Email:</strong> @customer.Emailaddress</p>
-        <p><strong>Phone:</strong> @customer.Telephonenumber</p>
-        <p><strong>Address:</strong> @customer.Streetaddress, @customer.City, @customer.Country</p>
-        <p><strong>Birthday:</strong> @customer.Birthday</p>
+        <p><strong>Name:</strong> @customerViewModel.Givenname @customerViewModel.Surname</p>
+        <p><strong>Email:</strong> @customerViewModel.Emailaddress</p>
+        <p><strong>Phone:</strong> @customerViewModel.Telephonenumber</p>
+        <p><strong>Address:</strong> @customerViewModel.Streetaddress, @customerViewModel.City, @customerViewModel.Country</p>
+        <p><strong>Birthday:</strong> @customerViewModel.Birthday</p>
+    </div>
+
+    <div class="accounts-section">
+        <h3>Accounts</h3>
+        @foreach (var account in customerViewModel.Accounts)
+        {
+            <div class="account-card">
+                <p><strong>Account ID:</strong> @account.AccountId</p>
+                <p><strong>Balance:</strong> @account.Balance</p>
+                <p><strong>Frequency:</strong> @account.Frequency</p>
+                <p><strong>Created:</strong> @account.Created</p>
+            </div>
+        }
     </div>
 }
 
 
 @code {
     private int customerId;
-    private CustomerDTO? customer;
+    private CustomerViewModel? customerViewModel;
     private string? errorMessage;
 
     private async Task GetCustomer()
     {
         errorMessage = null;
-        customer = await Http.GetFromJsonAsync<CustomerDTO>($"api/Customer/{customerId}");
+        var customer = await Http.GetFromJsonAsync<CustomerViewModel>($"api/Customer/{customerId}");
         
         if (customer == null)
         {
             errorMessage = "Customer not found!";
+            return;
         }
+
+        customerViewModel = new CustomerViewModel
+        {
+            CustomerId = customer.CustomerId,
+            Givenname = customer.Givenname,
+            Surname = customer.Surname,
+            Emailaddress = customer.Emailaddress,
+            City = customer.City,
+            Country = customer.Country,
+            Streetaddress = customer.Streetaddress,
+            Telephonenumber = customer.Telephonenumber,
+            Birthday = customer.Birthday,
+            Accounts = customer.Accounts
+        };
     }
 }

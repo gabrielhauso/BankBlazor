@@ -29,5 +29,6 @@ namespace BankBlazorClassLibrary.DTOs
         public string? Telephonenumber { get; set; }
 
         public string? Emailaddress { get; set; }
+        public List<AccountDTO> Accounts { get; set; } = new();
     }
 }

@@ -32,5 +32,6 @@ namespace BankBlazorClassLibrary.ViewModels
         public string? Emailaddress { get; set; }
 
         public List<AccountDTO> Accounts { get; set; } = new();
+        
     }
 }
