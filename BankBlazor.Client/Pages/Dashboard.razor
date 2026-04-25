@@ -1,0 +1,39 @@
+﻿@page "/dashboard"
+@inject HttpClient Http
+@using BankBlazorClassLibrary.DTOs
+
+<div class="search-section">
+    <label for="customerId">Customer ID:</label>
+    <input type="number" @bind="customerId" placeholder="Enter Customer ID" />
+    <button @onclick="GetCustomer">Search</button>
+</div>
+
+@if (customer != null)
+{
+    <div class="customer-section">
+        <h3>Customer Dashboard</h3>
+        <p><strong>Name:</strong> @customer.Givenname @customer.Surname</p>
+        <p><strong>Email:</strong> @customer.Emailaddress</p>
+        <p><strong>Phone:</strong> @customer.Telephonenumber</p>
+        <p><strong>Address:</strong> @customer.Streetaddress, @customer.City, @customer.Country</p>
+        <p><strong>Birthday:</strong> @customer.Birthday</p>
+    </div>
+}
+
+
+@code {
+    private int customerId;
+    private CustomerDTO? customer;
+    private string? errorMessage;
+
+    private async Task GetCustomer()
+    {
+        errorMessage = null;
+        customer = await Http.GetFromJsonAsync<CustomerDTO>($"api/Customer/{customerId}");
+        
+        if (customer == null)
+        {
+            errorMessage = "Customer not found!";
+        }
+    }
+}
