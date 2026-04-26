@@ -37,31 +37,32 @@
 @code {
     private int customerId;
     private CustomerViewModel? customerViewModel;
-    private string? errorMessage;
 
     private async Task GetCustomer()
     {
-        errorMessage = null;
-        var customer = await Http.GetFromJsonAsync<CustomerViewModel>($"api/Customer/{customerId}");
-        
-        if (customer == null)
+        try
         {
-            errorMessage = "Customer not found!";
-            return;
-        }
+            var customer = await Http.GetFromJsonAsync<CustomerViewModel>($"api/Customer/{customerId}");
 
-        customerViewModel = new CustomerViewModel
+            customerViewModel = new CustomerViewModel
+            {
+                CustomerId = customer.CustomerId,
+                Gender = customer.Gender,
+                Givenname = customer.Givenname,
+                Surname = customer.Surname,
+                Emailaddress = customer.Emailaddress,
+                City = customer.City,
+                Zipcode = customer.Zipcode,
+                Country = customer.Country,
+                Streetaddress = customer.Streetaddress,
+                Telephonenumber = customer.Telephonenumber,
+                Birthday = customer.Birthday,
+                Accounts = customer.Accounts
+            };
+        }
+        catch (Exception ex)
         {
-            CustomerId = customer.CustomerId,
-            Givenname = customer.Givenname,
-            Surname = customer.Surname,
-            Emailaddress = customer.Emailaddress,
-            City = customer.City,
-            Country = customer.Country,
-            Streetaddress = customer.Streetaddress,
-            Telephonenumber = customer.Telephonenumber,
-            Birthday = customer.Birthday,
-            Accounts = customer.Accounts
-        };
+            Console.WriteLine($"Error: {ex.Message}");
+        }
     }
 }
