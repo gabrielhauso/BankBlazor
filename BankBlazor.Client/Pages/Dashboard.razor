@@ -2,15 +2,15 @@
 @inject HttpClient Http
 @using BankBlazorClassLibrary.ViewModels
 
-<div class="search-section">
-    <label for="customerId">Customer ID:</label>
+<div class="container">
+    <label>Customer ID:</label>
     <input type="number" @bind="customerId" placeholder="Enter Customer ID" />
     <button @onclick="GetCustomer">Search</button>
 </div>
 
 @if (customerViewModel != null)
 {
-    <div class="customer-section">
+    <div class="container">
         <h3>Customer Dashboard</h3>
         <p><strong>Name:</strong> @customerViewModel.Givenname @customerViewModel.Surname</p>
         <p><strong>Email:</strong> @customerViewModel.Emailaddress</p>
@@ -19,7 +19,7 @@
         <p><strong>Birthday:</strong> @customerViewModel.Birthday</p>
     </div>
 
-    <div class="accounts-section">
+    <div class="container">
         <h3>Accounts</h3>
         @foreach (var account in customerViewModel.Accounts)
         {

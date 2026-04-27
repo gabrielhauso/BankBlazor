@@ -213,3 +213,34 @@ footer {
     min-height: 50px;
     margin-top: auto;
 }
+
+css.action-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.action-group input {
+    width: 150px;
+    margin: 0;
+}
+
+.action-group button {
+    margin: 0;
+}
+.container label {
+    display: inline-block;
+    width: 120px;
+    margin: 0;
+}
+
+.container input {
+    margin: 0;
+    width: 150px;
+}
+.container label {
+    display: inline-block;
+    width: 150px;
+    margin: 0;
+}
