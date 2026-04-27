@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject HttpClient Http
 
 <PageTitle>Home</PageTitle>
 
@@ -9,8 +10,45 @@
 </section>
 
 <section id="greeting" class="container">
-    <h2>Hello Admin! The next Scottish bank holiday is <strong>{holiday}</strong> on <strong>{date}</strong></h2>
+
+    @if (nextHoliday != null)
+    {
+        <h2>Hello Admin! The next Scottish bank holiday is <strong>@nextHoliday.Title</strong> on <strong>@nextHoliday.Date</strong></h2>
+    }
+    else
+    {
+        <h2>Hello Admin! Loading next Scottish bank holiday...</h2>
+    }
 </section>
 
+@code {
+    private BankHolidayViewModel nextHoliday;
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetFromJsonAsync<BankHolidayViewModel>("https://www.gov.uk/bank-holidays.json");
 
+            var today = DateTime.Today;
+
+            var holiday = response.Scotland.Events
+                .Where(e => DateTime.Parse(e.Date) > today)
+                .OrderBy(e => DateTime.Parse(e.Date))
+                .FirstOrDefault();
+
+            if (holiday != null)
+            {
+                nextHoliday = new BankHolidayViewModel
+                {
+                    Title = holiday.Title,
+                    Date = holiday.Date
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+}
