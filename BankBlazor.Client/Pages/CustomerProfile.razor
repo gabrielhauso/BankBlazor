@@ -1,0 +1,68 @@
+﻿@page "/customer/{id:int}"
+@inject HttpClient Http
+
+<h3>Customer Profile</h3>
+
+@if (customer == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card p-3 mb-4">
+        <h4>@customer.Givenname @customer.Surname</h4>
+
+        <p><b>Gender:</b> @customer.Gender</p>
+        <p><b>Email:</b> @customer.Emailaddress</p>
+        <p><b>Phone:</b> @customer.Telephonenumber</p>
+        <p><b>Birthday:</b> @customer.Birthday</p>
+
+        <p><b>Address:</b> @customer.Streetaddress</p>
+        <p><b>City:</b> @customer.City</p>
+        <p><b>Zipcode:</b> @customer.Zipcode</p>
+        <p><b>Country:</b> @customer.Country</p>
+    </div>
+
+    <h4>Accounts</h4>
+
+    @if (customer.Accounts == null || !customer.Accounts.Any())
+    {
+        <p>No accounts found</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Account ID</th>
+                    <th>Frequency</th>
+                    <th>Created</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var account in customer.Accounts)
+                {
+                    <tr>
+                        <td>@account.AccountId</td>
+                        <td>@account.Frequency</td>
+                        <td>@account.Created.ToShortDateString()</td>
+                        <td>@account.Balance</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+
+    private CustomerDTO? customer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = await Http.GetFromJsonAsync<CustomerDTO>($"api/Customer/{id}");
+    }
+}

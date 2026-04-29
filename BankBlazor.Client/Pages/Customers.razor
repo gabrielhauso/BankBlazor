@@ -31,6 +31,14 @@ else
             {
                 <tr>
                     <td>@customer.Gender</td>
+
+                    <td>
+                        <NavLink href="@($"/customer/{customer.CustomerId}")"
+                                 class="text-decoration-none">
+                            @customer.Givenname @customer.Surname
+                        </NavLink>
+                    </td>
+                    <td>@customer.Gender</td>
                     <td>@customer.Givenname</td>
                     <td>@customer.Surname</td>
                     <td>@customer.Emailaddress</td>
