@@ -17,9 +17,9 @@ namespace BankBlazor.API.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<List<CustomerDTO>>> GetAll()
+        public async Task<ActionResult<PageResult>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 50)
         {
-            var customer = await _customerService.GetAllCustomers();
+            var customer = await _customerService.GetAllCustomers(pageNumber,pageSize);
 
             if (customer == null)
             {
@@ -38,11 +38,21 @@ namespace BankBlazor.API.Controllers
                 Country = customer.Country,
                 Birthday = customer.Birthday,
                 Telephonenumber = customer.Telephonenumber,
-                Emailaddress = customer.Emailaddress
+                Emailaddress = customer.Emailaddress,
+                
+                
 
-            });
+            }).ToList();
 
-            return Ok(customerDTO);
+            var pageResult = new PageResult
+            {
+                Customers = customerDTO,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = await _customerService.GetTotalCustomerCount()
+            };
+
+            return Ok(pageResult);
         }
 
         [HttpGet("{id}")]

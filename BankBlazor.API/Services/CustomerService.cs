@@ -16,9 +16,12 @@ namespace BankBlazor.API.Services
             _dbcontext = dbcontext;
         }
 
-        public async Task<List<Customer>> GetAllCustomers()
+        public async Task<List<Customer>> GetAllCustomers(int pageNumber, int pageSize)
         {
-            var customers = await _dbcontext.Customers.ToListAsync();
+            var customers = await _dbcontext.Customers
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return customers;
         }
@@ -32,5 +35,11 @@ namespace BankBlazor.API.Services
 
             return customers;
         }
+
+        public async Task<int> GetTotalCustomerCount()
+        {
+            return await _dbcontext.Customers.CountAsync();
+        }
+
     }
 }

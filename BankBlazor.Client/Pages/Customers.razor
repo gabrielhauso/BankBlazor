@@ -1,0 +1,124 @@
+﻿@page "/customers"
+@inject HttpClient Http
+
+
+<h1 class="mb-4">Customer List</h1>
+
+
+@if (customers == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Gender</th>
+                <th>Givenname</th>
+                <th>Surname</th>
+                <th>Emailaddress</th>
+                <th>Zipcode</th>
+                <th>Country</th>
+                <th>Streetaddress</th>
+                <th>Telephonenumber</th>
+                <th>Birthday</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                <tr>
+                    <td>@customer.Gender</td>
+                    <td>@customer.Givenname</td>
+                    <td>@customer.Surname</td>
+                    <td>@customer.Emailaddress</td>
+                    <td>@customer.Zipcode</td>
+                    <td>@customer.Country</td>
+                    <td>@customer.Streetaddress</td>
+                    <td>@customer.Telephonenumber</td>
+                    <td>@customer.Birthday</td>
+
+                </tr>
+            }
+            <div class="mt-3">
+                <button class="btn btn-primary me-2" @onclick="PrevPage" disabled="@IsFirstPage">
+                    Previous
+                </button>
+
+                <button class="btn btn-primary" @onclick="NextPage" disabled="@IsLastPage">
+                    Next
+                </button>
+
+                <span class="ms-3">
+                    Page @pageNumber / @totalPages
+                </span>
+            </div>
+
+        </tbody>
+    </table>
+
+}
+    @code {
+    private List<CustomerViewModel>? customers;
+
+    private int pageNumber = 1;
+    private int pageSize = 50;
+    private int totalPages;
+
+    private bool IsFirstPage => pageNumber == 1;
+    private bool IsLastPage => pageNumber >= totalPages;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        var result = await Http.GetFromJsonAsync<PageResultViewModel>(
+            $"api/Customer?pageNumber={pageNumber}&pageSize={pageSize}");
+
+        if (result is null) return;
+
+        customers = result.Customers.Select(c => new CustomerViewModel
+        {
+            CustomerId = c.CustomerId,
+            Gender = c.Gender,
+            Givenname = c.Givenname,
+            Surname = c.Surname,
+            Emailaddress = c.Emailaddress,
+            City = c.City,
+            Zipcode = c.Zipcode,
+            Country = c.Country,
+            Streetaddress = c.Streetaddress,
+            Telephonenumber = c.Telephonenumber,
+            Birthday = c.Birthday
+        }).ToList();
+
+        totalPages = (int)Math.Ceiling(result.TotalCount / (double)pageSize);
+    }
+
+    private async Task NextPage()
+    {
+        if (pageNumber < totalPages)
+        {
+            pageNumber++;
+            await LoadCustomers();
+        }
+    }
+
+    private async Task PrevPage()
+    {
+        if (pageNumber > 1)
+        {
+            pageNumber--;
+            await LoadCustomers();
+        }
+    }
+}
+
+
+
+
