@@ -68,7 +68,7 @@ else
     </table>
 
 }
-    @code {
+@code {
     private List<CustomerViewModel>? customers;
 
     private int pageNumber = 1;
@@ -88,7 +88,10 @@ else
         var result = await Http.GetFromJsonAsync<PageResultViewModel>(
             $"api/Customer?pageNumber={pageNumber}&pageSize={pageSize}");
 
-        if (result is null) return;
+        if (result == null)
+        {
+            return;
+        }
 
         customers = result.Customers.Select(c => new CustomerViewModel
         {

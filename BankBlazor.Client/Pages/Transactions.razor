@@ -70,6 +70,11 @@
         {
             var result = await Http.GetFromJsonAsync<List<TransactionViewModel>>($"api/Account/{accountId}/transactions");
 
+            if (result == null)
+            {
+                return;
+            }
+
             transactions = result.Select(t => new TransactionViewModel
             {
                 TransactionId = t.TransactionId,

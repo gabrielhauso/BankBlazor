@@ -37,11 +37,17 @@
     private int customerId;
     private CustomerViewModel? customerViewModel;
 
+
     private async Task GetCustomer()
     {
         try
         {
             var customer = await Http.GetFromJsonAsync<CustomerViewModel>($"api/Customer/{customerId}");
+
+            if (customer == null)
+            {
+                return;
+            }
 
             customerViewModel = new CustomerViewModel
             {
