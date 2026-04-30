@@ -15,7 +15,7 @@ public class Program
 
         builder.Services.AddScoped(sp => new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:7109/")
+            BaseAddress = new Uri("https://bankblazor-api-a3hmhna9axe2crgv.swedencentral-01.azurewebsites.net/")
         });
 
 
