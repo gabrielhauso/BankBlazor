@@ -29,9 +29,12 @@ namespace BankBlazor.API
             {
                 options.AddPolicy("AllowBlazorClient", policy =>
                 {
-                    policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
+                    policy.WithOrigins(
+                        "https://localhost:7249",
+                        "https://bankblazor-client-fdabhmd4eqhgf8hv.swedencentral-01.azurewebsites.net"
+                    )
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
                 });
             });
 
