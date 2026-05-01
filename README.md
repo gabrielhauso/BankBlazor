@@ -24,8 +24,8 @@ I appen kan du:
 - Hosting - Azure (App Service + SQL Database)
 
 ## Struktur
-- BankBlazor.API – API med controllers & services
-- BankBlazor.Client – frontend (Blazor WASM)
+- BankBlazor.API - API med controllers & services
+- BankBlazor.Client - frontend (Blazor WASM)
 - BankBlazorClassLibrary – delade modeller
 
 ## Setup
@@ -36,12 +36,12 @@ I appen kan du:
 5. Starta både API och Client
 
 ## API endpoints
-- GET /api/Customer – Hämta kunder (med paginering)
-- GET /api/Customer/{id} – Hämta en kund
-- POST /api/Account/deposit – Sätt in pengar
-- POST /api/Account/withdraw – Ta ut pengar
-- POST /api/Account/transfer – Överför pengar
-- GET /api/Account/{id}/transactions – Transaktioner
+- GET /api/Customer - Hämta kunder (med paginering)
+- GET /api/Customer/{id} - Hämta en kund
+- POST /api/Account/deposit - Sätt in pengar
+- POST /api/Account/withdraw - Ta ut pengar
+- POST /api/Account/transfer - Överför pengar
+- GET /api/Account/{id}/transactions - Transaktioner
 
 ## Externt API
 Appen hämtar bank holidays från UK Government API för att visa nästa bank holiday.
