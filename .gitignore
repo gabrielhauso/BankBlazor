@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+appsettings.json
+/BankBlazor.API/Properties/ServiceDependencies/BankBlazor-API - Web Deploy/mssql1.arm.json
