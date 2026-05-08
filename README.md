@@ -16,7 +16,7 @@ I appen kan du:
 - Bläddra bland kunder (med paginering)
 - Se nästa scottish bank holiday
 
-## Teknisk som används
+## Tekniskt som används
 - Frontend - Blazor WebAssembly (.NET 8)
 - Backend - ASP.NET Core Web API (.NET 8)
 - Databas - SQL Server + Entity Framework Core (Database First)
