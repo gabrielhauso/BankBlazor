@@ -40,6 +40,18 @@ namespace BankBlazor.API
 
             var app = builder.Build();
 
+           
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.
+                     GetRequiredService<BankBlazorContext>();
+                if (dbContext.Database.IsRelational())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
+
+
             app.UseCors("AllowBlazorClient");
 
             // Configure the HTTP request pipeline.
